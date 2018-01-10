@@ -158,6 +158,40 @@ public class Picture extends SimplePicture
     } 
   }
   
+  /**
+   * Mirrors just a square part of the picture from bottom left to right
+   *    around a mirror placed on the diagonal line
+   *    Diagonal line is where row index = col index
+   */
+  public void mirrorDiagonal()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    int numOfRows = pixels.length;
+    int numOfCols = pixels[0].length;
+    int bounds = 0;
+    if(numOfRows>numOfCols)
+    {
+        bounds = numOfCols;
+    }
+    else
+    {
+        bounds = numOfRows;
+    }
+    
+    for (int row = 0; row < bounds; row++)
+    {
+      for (int col = 0; col < bounds; col++)
+      {
+        leftPixel = pixels[row][col];
+        rightPixel = pixels[col][row];
+        rightPixel.setColor(leftPixel.getColor());
+      }
+    } 
+  }
+  
+  
   /** Mirror just part of a picture of a temple */
   public void mirrorTemple()
   {
@@ -173,7 +207,34 @@ public class Picture extends SimplePicture
       // loop from 13 to just before the mirror point
       for (int col = 13; col < mirrorPoint; col++)
       {
-        
+        count++;
+        leftPixel = pixels[row][col];      
+        rightPixel = pixels[row]                       
+                         [mirrorPoint - col + mirrorPoint];
+        rightPixel.setColor(leftPixel.getColor());
+      }
+    }
+    System.out.println("Count is: "+ count);
+  }
+  
+  /**
+   * Mirrors arms on the snowman to make a snowman with 4 arms
+   */
+  public void mirrorArms()
+  {
+    int mirrorPoint = 276;
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    int count = 0;
+    Pixel[][] pixels = this.getPixels2D();
+    
+    // loop through the rows
+    for (int row = 27; row < 97; row++)
+    {
+      // loop from 13 to just before the mirror point
+      for (int col = 13; col < mirrorPoint; col++)
+      {
+        count++;
         leftPixel = pixels[row][col];      
         rightPixel = pixels[row]                       
                          [mirrorPoint - col + mirrorPoint];
@@ -181,6 +242,7 @@ public class Picture extends SimplePicture
       }
     }
   }
+  
   
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
