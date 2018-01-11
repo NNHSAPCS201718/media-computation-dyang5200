@@ -17,6 +17,24 @@ public class PictureTester
     beach.explore();
   }
   
+  /** Method to test keepOnlyBlue */
+  public static void testKeepOnlyBlue()
+  {
+    Picture beach = new Picture("beach.jpg");
+    beach.explore();
+    beach.keepOnlyBlue();
+    beach.explore();
+  }
+  
+  /** Method to test negate */
+  public static void testNegate()
+  {
+    Picture beach = new Picture("beach.jpg");
+    beach.explore();
+    beach.negate();
+    beach.explore();
+  }
+  
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
   {
@@ -67,8 +85,17 @@ public class PictureTester
   {
     Picture snowman = new Picture("snowman.jpg");
     snowman.explore();
-    //snowman.mirrorArms();
-    //snowman.explore();
+    snowman.mirrorArms();
+    snowman.explore();
+  }
+  
+  /** Method to test mirrorArms */
+  public static void testMirrorGull()
+  {
+    Picture gull = new Picture("seagull.jpg");
+    gull.explore();
+    gull.mirrorGull();
+    gull.explore();
   }
   
   /** Method to test the collage method */
@@ -94,11 +121,11 @@ public class PictureTester
     // uncomment a call here to run a test
     // and comment out the ones you don't want
     // to run
-    testZeroBlue();
+    //testZeroBlue();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
-    //testNegate();
+    testNegate();
     //testGrayscale();
     //testFixUnderwater();
     //testMirrorVertical();
