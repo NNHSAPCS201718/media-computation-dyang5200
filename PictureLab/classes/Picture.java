@@ -118,7 +118,86 @@ public class Picture extends SimplePicture
       {
           for(Pixel pixelObj : rowArray)
           {
-              // pixelObj.setRed(255-this.getRed());
+              int red = pixelObj.getRed();
+              pixelObj.setRed(255-red);
+              
+              int green = pixelObj.getGreen();
+              pixelObj.setGreen(255-green);
+              
+              int blue = pixelObj.getBlue();
+              pixelObj.setBlue(255-blue);
+          }
+      }
+  }
+  
+  public void grayscale()
+  {
+      Pixel[][] pixels = this.getPixels2D();
+      for(Pixel[] rowArray : pixels)
+      {
+          for(Pixel pixelObj : rowArray)
+          {
+              int total = pixelObj.getRed() + pixelObj.getBlue() + 
+                          pixelObj.getGreen();
+              int avg = total / 3;
+              
+              pixelObj.setRed(avg);
+              pixelObj.setBlue(avg);
+              pixelObj.setGreen(avg);
+          }
+      }
+  }
+  
+  /**
+   * Modifies pixel colors to make fish easier to see
+   */
+  public void fixUnderwater()
+  {
+      Pixel[][] pixels = this.getPixels2D();
+      Pixel pixel = null;
+      for(Pixel[] rowArray : pixels)
+      {
+          for(Pixel pixelObj : rowArray)
+          {
+              if(pixelObj.getBlue() > pixelObj.getGreen())
+              {
+                  pixelObj.setBlue(pixelObj.getBlue() + 20);
+              }
+              else
+              {
+                  pixelObj.setBlue(pixelObj.getBlue() - 20);
+              }
+          }
+      }
+  }
+  
+  /**
+   * Copy a region of the specified source Picture object into this
+   *    Picture object at the specified location.
+   *    Make sure destination Picture object is large enough to 
+   *    fit copied Picture
+   *    
+   * @param sourcePicture       the source picture
+   * @param startSourceRow      the row the source picture starts in
+   * @param endSourceRow        the row the source picture ends in
+   * @param startSourceCol      the col the source picture starts in
+   * @param endSourceCol        the col the source picture ends in
+   * @param startDestRow        the row the destination picture starts in
+   * @param startDestCol        the col the destination picture starts in
+   */
+  public void cropAndCopy(Picture sourcePicture, int startSourceRow, 
+            int endSourceRow, int startSourceCol, int endSourceCol,
+            int startDestRow, int startDestCol )
+  {
+      Pixel[][] pixels = this.getPixels2D();
+      Pixel pixel = null;
+      int destRow = startDestRow;
+      int destCol = startDestCol;
+      
+      for(int row = startSourceRow; row<= endSourceRow; row++)
+      {
+          for(int col = startSourceCol; col<= endSourceCol; col++)
+          {
               
           }
       }
