@@ -189,16 +189,19 @@ public class Picture extends SimplePicture
             int endSourceRow, int startSourceCol, int endSourceCol,
             int startDestRow, int startDestCol )
   {
-      Pixel[][] pixels = this.getPixels2D();
-      Pixel pixel = null;
-      int destRow = startDestRow;
-      int destCol = startDestCol;
+      Pixel[][] pixels = sourcePicture.getPixels2D();
+      Pixel[][] destPixels = this.getPixels2D();
+      Pixel sourcePixel = null;
+      Pixel destPixel = null;
       
       for(int row = startSourceRow; row<= endSourceRow; row++)
       {
           for(int col = startSourceCol; col<= endSourceCol; col++)
           {
-              
+              sourcePixel = pixels[row][col];
+              destPixel = destPixels[row + (startDestRow - startSourceRow)][col
+                            + (startDestCol - startSourceCol)];
+              destPixel.setColor(sourcePixel.getColor());
           }
       }
   }

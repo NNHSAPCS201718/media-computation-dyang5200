@@ -135,8 +135,11 @@ public class PictureTester
   /** Method to test cropAndCopy */
   public static void testCropAndCopy()
   {
-      Picture picture2 = new Picture();
-      
+      Picture picture2 = new Picture("water.jpg");
+      Picture picture1 = new Picture("caterpillar.jpg");
+      picture2.explore();
+      picture2.cropAndCopy(picture1,5,63,24,100,160,200);
+      picture2.explore();                                                                               picture2.explore();
   }
   
   /** Main method for testing.  Every class can have a main
