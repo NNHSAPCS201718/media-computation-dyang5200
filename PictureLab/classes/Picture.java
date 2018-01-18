@@ -206,6 +206,53 @@ public class Picture extends SimplePicture
       }
   }
   
+  /**
+   * scale this Picture object and return a new Picture object, 
+   *    scaling the picture by 50% 
+   *    (the width and height will each be half their original values)
+   */
+  public Picture scaleByHalf()
+  {
+      Pixel[][] pixels = this.getPixels2D();
+      int height = this.getHeight();
+      int width = this.getWidth();
+      Picture canvas = new Picture(height/2, width/2);
+      Pixel[][] destPixels = canvas.getPixels2D();
+      Pixel sourcePixel = null;
+      
+      int redTotal = 0;
+      int greenTotal = 0;
+      int blueTotal = 0;
+      int count = 0;
+      
+      for(int row=0; row<pixels.length; row++)
+      {
+          for(int col = 0; col<pixels[0].length; col++)
+          {
+              sourcePixel = pixels[row][col];
+              redTotal = sourcePixel.getRed();
+              greenTotal = sourcePixel.getGreen();
+              blueTotal = sourcePixel.getBlue();
+              count++;
+              if(count == 3)
+              {
+                  int avgRed = redTotal / 3;
+                  int avgGreen = greenTotal / 3;
+                  int avgBlue = blueTotal / 3;
+                  redTotal = 0;
+                  greenTotal = 0;
+                  blueTotal = 0;
+                  destPixels[row/2][col/2].setRed(avgRed);
+                  destPixels[row/2][col/2].setBlue(avgBlue);
+                  destPixels[row/2][col/2].setGreen(avgGreen);
+                  count = 0;
+              }
+          }
+      }
+      canvas.cropAndCopy(this, 0,0,height,width, 0,0);
+      return canvas;
+  }
+  
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -406,17 +453,9 @@ public class Picture extends SimplePicture
   /** Method to create a collage of several pictures */
   public void createCollage()
   {
-    Picture flower1 = new Picture("flower1.jpg");
+    Picture georgiaTech = new Picture("GeorgiaTech.jpg");
     Picture flower2 = new Picture("flower2.jpg");
-    this.copy(flower1,0,0);
-    this.copy(flower2,100,0);
-    this.copy(flower1,200,0);
-    Picture flowerNoBlue = new Picture(flower2);
-    flowerNoBlue.zeroBlue();
-    this.copy(flowerNoBlue,300,0);
-    this.copy(flower1,400,0);
-    this.copy(flower2,500,0);
-    this.mirrorVertical();
+    this.copy(georgiaTech,0,0);
     this.write("collage.jpg");
   }
   

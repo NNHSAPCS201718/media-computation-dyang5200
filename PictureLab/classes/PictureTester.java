@@ -142,6 +142,16 @@ public class PictureTester
       picture2.explore();                                                                               picture2.explore();
   }
   
+  /** Method to test scaleByHalf */
+  public static void testScaleByHalf()
+  {
+      Picture picture = new Picture("caterpillar.jpg");
+      picture.explore();
+      picture.scaleByHalf();
+      picture.explore();
+  }
+  
+  
   /** Main method for testing.  Every class can have a main
     * method in Java */
   public static void main(String[] args)
@@ -154,7 +164,7 @@ public class PictureTester
     //testKeepOnlyRed();
     //testKeepOnlyGreen();
     //testNegate();
-    testGrayscale();
+    //testGrayscale();
     //testFixUnderwater();
     //testMirrorVertical();
     //testMirrorTemple();
