@@ -194,6 +194,8 @@ public class Picture extends SimplePicture
       Pixel sourcePixel = null;
       Pixel destPixel = null;
       
+      //this.cropAndCopy(gtech,16,256,0,256,0,0);
+      
       for(int row = startSourceRow; row<= endSourceRow; row++)
       {
           for(int col = startSourceCol; col<= endSourceCol; col++)
@@ -217,6 +219,7 @@ public class Picture extends SimplePicture
       int height = this.getHeight();
       int width = this.getWidth();
       Picture canvas = new Picture(height/2, width/2);
+      
       Pixel[][] destPixels = canvas.getPixels2D();
       Pixel sourcePixel = null;
       
@@ -453,12 +456,87 @@ public class Picture extends SimplePicture
   /** Method to create a collage of several pictures */
   public void createCollage()
   {
-    Picture georgiaTech = new Picture("GeorgiaTech.jpg");
-    Picture flower2 = new Picture("flower2.jpg");
-    this.copy(georgiaTech,0,0);
+    Picture gtech = new Picture("GeorgiaTech.jpg");
+    Picture gtech2 = new Picture("GeorgiaTech.jpg");
+    Picture gtech3 = new Picture("GeorgiaTech.jpg");
+    Picture gtech4 = new Picture("GeorgiaTech.jpg");
+    
+    this.cropAndCopy(gtech,16,255,0,255,0,0);   //original image
+    
+    gtech2.grayscale();
+    gtech2.sepia();
+    this.cropAndCopy(gtech2,16,255,0,255,0,255);
+    
+    gtech3.negate();
+    this.cropAndCopy(gtech3,16,255,0,255,240,0);
+    
+    gtech4.moreRed();
+    //gtech4.mirrorVerticalRightToLeft();
+    this.cropAndCopy(gtech4,16,255,0,255,240,255);
+    
+    /*
+     * Possible modifications:
+     *      - sepia
+     *      - edge detection
+     *      - 
+     */
+    
     this.write("collage.jpg");
   }
   
+  /**
+   * Applies the sepia filter onto an image
+   */
+  public void sepia()
+  {
+      Pixel[][] pixels = this.getPixels2D();
+      for(Pixel[] rowArray : pixels)
+      {
+          for(Pixel pixelObj : rowArray)
+          {
+              if(pixelObj.getRed() < 60)
+              {
+                  pixelObj.setRed( (int) (pixelObj.getRed() * .9));
+                  pixelObj.setBlue( (int) (pixelObj.getBlue() * .9));
+                  pixelObj.setGreen( (int) (pixelObj.getGreen() * .9));
+              }
+              else if(pixelObj.getRed() < 190)
+              {
+                  pixelObj.setBlue( (int) (pixelObj.getBlue() * .8));
+              }
+              else
+              {
+                  pixelObj.setBlue( (int) (pixelObj.getBlue() *.9));
+              }
+          }
+      }
+  }
+  
+  public void moreRed()
+  {
+      Pixel[][] pixels = this.getPixels2D();
+      for(Pixel[] rowArray : pixels)
+      {
+          for(Pixel pixelObj : rowArray)
+          {
+              if(pixelObj.getBlue() < 100)
+              {
+                  pixelObj.setRed( (int) (pixelObj.getRed() * 1.1));
+                  pixelObj.setBlue( (int) (pixelObj.getBlue() * .9));
+                  pixelObj.setGreen( (int) (pixelObj.getGreen() * 1.05));
+              }
+              else if(pixelObj.getBlue() < 200)
+              {
+                  pixelObj.setBlue( (int) (pixelObj.getBlue() * .8));
+                  pixelObj.setGreen( (int) (pixelObj.getGreen() * .9));
+              }
+              else
+              {
+                  pixelObj.setRed( (int) (pixelObj.getRed() * 1.1));
+              }
+          }
+      }
+  }
   
   /** Method to show large changes in color 
     * @param edgeDist the distance for finding edges
