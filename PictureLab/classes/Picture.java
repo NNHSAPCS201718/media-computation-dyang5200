@@ -4,6 +4,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.text.*;
 import java.util.*;
+import java.awt.Color;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
 
 /**
@@ -194,7 +195,6 @@ public class Picture extends SimplePicture
       Pixel sourcePixel = null;
       Pixel destPixel = null;
       
-      //this.cropAndCopy(gtech,16,256,0,256,0,0);
       
       for(int row = startSourceRow; row<= endSourceRow; row++)
       {
@@ -218,41 +218,23 @@ public class Picture extends SimplePicture
       Pixel[][] pixels = this.getPixels2D();
       int height = this.getHeight();
       int width = this.getWidth();
-      Picture canvas = new Picture(height/2, width/2);
       
-      Pixel[][] destPixels = canvas.getPixels2D();
+      Pixel[][] destPixels = this.getPixels2D();
       Pixel sourcePixel = null;
+      Pixel destPixel = null;
       
-      int redTotal = 0;
-      int greenTotal = 0;
-      int blueTotal = 0;
-      int count = 0;
-      
+      Picture canvas = new Picture(height/2, width/2);
+
       for(int row=0; row<pixels.length; row++)
       {
           for(int col = 0; col<pixels[0].length; col++)
           {
               sourcePixel = pixels[row][col];
-              redTotal = sourcePixel.getRed();
-              greenTotal = sourcePixel.getGreen();
-              blueTotal = sourcePixel.getBlue();
-              count++;
-              if(count == 3)
-              {
-                  int avgRed = redTotal / 3;
-                  int avgGreen = greenTotal / 3;
-                  int avgBlue = blueTotal / 3;
-                  redTotal = 0;
-                  greenTotal = 0;
-                  blueTotal = 0;
-                  destPixels[row/2][col/2].setRed(avgRed);
-                  destPixels[row/2][col/2].setBlue(avgBlue);
-                  destPixels[row/2][col/2].setGreen(avgGreen);
-                  count = 0;
-              }
+              destPixel = destPixels[row/2][col/2];
+              destPixel.setColor(sourcePixel.getColor());
           }
       }
-      canvas.cropAndCopy(this, 0,0,height,width, 0,0);
+      canvas.cropAndCopy(this, 0,0,height/2,width/2, 0,0);
       return canvas;
   }
   
@@ -281,16 +263,15 @@ public class Picture extends SimplePicture
    */
   public void mirrorVerticalRightToLeft()
   {
-    Pixel[][] pixels = this.getPixels2D();
     Pixel leftPixel = null;
     Pixel rightPixel = null;
-    int width = pixels[0].length;
-    for (int row = 0; row < pixels.length; row++)
+    int width = this.getWidth();
+    for (int row = 0; row < this.getHeight(); row++)
     {
       for (int col = 0; col < width / 2; col++)
       {
-        leftPixel = pixels[row][col];
-        rightPixel = pixels[row][width - 1 - col];
+        leftPixel = this.getPixel(col, row);
+        rightPixel = this.getPixel(width - 1 - col, row);
         leftPixel.setColor(rightPixel.getColor());
       }
     } 
@@ -460,29 +441,27 @@ public class Picture extends SimplePicture
     Picture gtech2 = new Picture("GeorgiaTech.jpg");
     Picture gtech3 = new Picture("GeorgiaTech.jpg");
     Picture gtech4 = new Picture("GeorgiaTech.jpg");
+    Picture bee = new Picture("YellowJacket.jpg");
     
     this.cropAndCopy(gtech,16,255,0,255,0,0);   //original image
     
     gtech2.grayscale();
     gtech2.sepia();
+    gtech4.mirrorVerticalRightToLeft();
     this.cropAndCopy(gtech2,16,255,0,255,0,255);
     
     gtech3.negate();
     this.cropAndCopy(gtech3,16,255,0,255,240,0);
     
     gtech4.moreRed();
-    //gtech4.mirrorVerticalRightToLeft();
+    gtech4.edgeDetection(25);
     this.cropAndCopy(gtech4,16,255,0,255,240,255);
     
-    /*
-     * Possible modifications:
-     *      - sepia
-     *      - edge detection
-     *      - 
-     */
+    this.cropAndCopy(bee, 5, 5, 310, 130, 0, 515);
     
     this.write("collage.jpg");
   }
+  
   
   /**
    * Applies the sepia filter onto an image
@@ -555,11 +534,16 @@ public class Picture extends SimplePicture
         leftPixel = pixels[row][col];
         rightPixel = pixels[row][col+1];
         rightColor = rightPixel.getColor();
+        double avgLeft = leftPixel.getAverage();
+        double avgRight = rightPixel.getAverage();
+        
+        double distance = Math.abs(avgLeft - avgRight);
+        
         if (leftPixel.colorDistance(rightColor) > 
             edgeDist)
-          leftPixel.setColor(Color.BLACK);
-        else
           leftPixel.setColor(Color.WHITE);
+        else
+          leftPixel.setColor(Color.BLACK);
       }
     }
   }
