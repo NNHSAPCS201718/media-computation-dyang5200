@@ -447,17 +447,14 @@ public class Picture extends SimplePicture
     
     gtech2.grayscale();
     gtech2.sepia();
-    gtech4.mirrorVerticalRightToLeft();
     this.cropAndCopy(gtech2,16,255,0,255,0,255);
     
     gtech3.negate();
     this.cropAndCopy(gtech3,16,255,0,255,240,0);
     
-    gtech4.moreRed();
     gtech4.edgeDetection(25);
+    gtech4.mirrorVerticalRightToLeft();
     this.cropAndCopy(gtech4,16,255,0,255,240,255);
-    
-    this.cropAndCopy(bee, 5, 5, 310, 130, 0, 515);
     
     this.write("collage.jpg");
   }

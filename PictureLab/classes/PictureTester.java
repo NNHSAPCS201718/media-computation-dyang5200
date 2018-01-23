@@ -113,6 +113,7 @@ public class PictureTester
     Picture canvas = new Picture("640x480.jpg");
     canvas.createCollage();
     canvas.explore();
+    canvas.write("C:\\Users\\dayang\\GitHub\\media-computation-dyang5200\\images\\DanielleYang.jpg");
   }
   
   /** Method to test edgeDetection */
