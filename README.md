@@ -7,7 +7,7 @@ I wrote a cropAndCopy method that copies a portion of a picture onto a new pictu
 
 
 Initial Picture:
-![description](PictureLab/images/GeorgiaTech.jpg)
+![Initial Picture](PictureLab/images/GeorgiaTech.jpg)
 
 Final Picture:
-![description](PictureLab/images/DanielleYang.jpg)
+![Final Picture](PictureLab/images/DanielleYang.jpg)
