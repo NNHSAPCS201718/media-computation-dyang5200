@@ -15,7 +15,8 @@ The goal of this lab is for you to apply creatively the filters and transformati
 
 * the 4 copies includes the original image and at least 3 modifications of the original image
 
-    * you may find it convenient to start with a large, blank picturePicture canvas = new Picture(height, width);
+    * you may find it convenient to start with a large, blank picture
+Picture canvas = new Picture(height, width);
 
     * you must invoke the cropAndCopy method that you wrote in the programming practice activity
 
@@ -81,3 +82,5 @@ The goal of this lab is for you to apply creatively the filters and transformati
 
 * Please specify in your submission comment which methods I should call to create your collage.
 
+
+![description](PictureLab/images/DanielleYang.jpg)
